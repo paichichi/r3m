@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="xli990@130.216.50.46:22 agent (2)" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="xli990@130.216.50.46:22 agent" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="xli990@130.216.50.46:22 agent">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/pycharm_project_550" local="$PROJECT_DIR$" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="xli990@130.216.50.46:22 agent (2)">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/home/xli990/paichichi/GitHub" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
