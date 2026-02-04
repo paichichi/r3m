@@ -1,53 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="xli990@130.216.50.46:22 agent (7)" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="xli990@130.216.50.46:22 agent (2)" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="xli990@130.216.50.46:22 agent">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/tmp/pycharm_project_550" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
       <paths name="xli990@130.216.50.46:22 agent (2)">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="xli990@130.216.50.46:22 agent (3)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="xli990@130.216.50.46:22 agent (4)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="xli990@130.216.50.46:22 agent (5)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="xli990@130.216.50.46:22 agent (6)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="xli990@130.216.50.46:22 agent (7)">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/paichichi/GitHub" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/xli990/paichichi/GitHub" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
