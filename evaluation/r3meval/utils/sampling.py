@@ -4,8 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 import logging
 import numpy as np
-from r3meval.utils.gym_env import GymEnv
-from r3meval.utils import tensor_utils
+from evaluation.r3meval.utils.gym_env import GymEnv
+from evaluation.r3meval.utils import tensor_utils
 logging.disable(logging.CRITICAL)
 import multiprocessing as mp
 import time as timer
@@ -13,8 +13,8 @@ logging.disable(logging.CRITICAL)
 import gc
 from collections import namedtuple
 
-from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE,
-                            ALL_V2_ENVIRONMENTS_GOAL_HIDDEN)
+# from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE,
+#                             ALL_V2_ENVIRONMENTS_GOAL_HIDDEN)
 
 
 # Single core rollout to sample trajectories

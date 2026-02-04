@@ -3,24 +3,24 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 from collections import namedtuple
-from r3meval.utils.gym_env import GymEnv
-from r3meval.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding
-from r3meval.utils.sampling import sample_paths
-from r3meval.utils.gaussian_mlp import MLP
-from r3meval.utils.behavior_cloning import BC
+from evaluation.r3meval.utils.gym_env import GymEnv
+from evaluation.r3meval.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding
+from evaluation.r3meval.utils.sampling import sample_paths
+from evaluation.r3meval.utils.gaussian_mlp import MLP
+from evaluation.r3meval.utils.behavior_cloning import BC
 from tabulate import tabulate
 from tqdm import tqdm
-import mj_envs, gym 
+import mj_envs, gym
 import numpy as np, time as timer, multiprocessing, pickle, os
 import os
 from collections import namedtuple
 
 
 import metaworld
-from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE,
-                            ALL_V2_ENVIRONMENTS_GOAL_HIDDEN)
+# from metaworld.envs import (ALL_V3_ENVIRONMENTS_GOAL_OBSERVABLE,
+#                             ALL_V3_ENVIRONMENTS_GOAL_HIDDEN)
 
-
+# 构建 encoder的 也可以算一种选择
 def env_constructor(env_name, device='cuda', image_width=256, image_height=256,
                     camera_name=None, embedding_name='resnet50', pixel_based=True,
                     render_gpu_id=0, load_path="", proprio=False, lang_cond=False, gc=False):
