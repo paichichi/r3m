@@ -7,10 +7,10 @@ default:
     - override hydra/output: local
 
 # general inputs
-env               :   pen-v0
+env               :   kitchen_micro_open-v3
 pixel_based       :   True                    # pixel based (True) or state based (False) experiment
 embedding         :   resnet50                # choice of embedding network
-camera            :   vil_camera              # choice of camera to use for image generation
+camera            :   left_cap              # choice of camera to use for image generation
 device            :   cuda
 
 # experiment and evaluation
@@ -47,7 +47,7 @@ bc_kwargs:
   loss_type       :   'MSE'
   batch_size      :   32 #200
   lr              :   1e-3
-  save_logs       :   False
+  save_logs       :   True
   finetune        :   False
   proprio         :   ${proprio}  
   proprio_only    :   False

@@ -12,7 +12,7 @@ import numpy as np
 import time as timer
 import torch
 from torch.autograd import Variable
-from r3meval.utils.logger import DataLog
+from evaluation.r3meval.utils.logger import DataLog
 from tqdm import tqdm
 
 
