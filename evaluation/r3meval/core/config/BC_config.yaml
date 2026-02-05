@@ -7,10 +7,10 @@ default:
     - override hydra/output: local
 
 # general inputs
-env               :   kitchen_micro_open-v3
+env               :   pen-v0
 pixel_based       :   True                    # pixel based (True) or state based (False) experiment
 embedding         :   resnet50                # choice of embedding network
-camera            :   left_cap              # choice of camera to use for image generation
+camera            :   vil_camera              # choice of camera to use for image generation
 device            :   cuda
 
 # experiment and evaluation
@@ -18,22 +18,22 @@ seed              :   123                     # used as base_seed for rolling ou
 steps             :   20000                  # number of outer epochs
 eval_frequency    :   1000                       # frequency of epochs for evaluation and logging
 eval_num_traj     :   50                      # number of rollouts to eval
-num_cpu           :   1                       # for rolling out paths when evaluating                 
+num_cpu           :   1                       # for rolling out paths when evaluating
 num_demos         :   200                     # path to demo file auto-inferred from other inputs
 proprio           :   0
 
 # environment related kwargs
 env_kwargs:
-    env_name      :   ${env}                
+    env_name      :   ${env}
     device        :   ${device}               # device to use for representation network (policy clamped to CPU for now)
     image_width   :   256
     image_height  :   256
     camera_name   :   ${camera}
-    embedding_name :  ${embedding}                
+    embedding_name :  ${embedding}
     pixel_based   :   ${pixel_based}
-    render_gpu_id :   0                 
-    load_path     :   ""  
-    proprio       :   ${proprio}  
+    render_gpu_id :   0
+    load_path     :   ""
+    proprio       :   ${proprio}
     lang_cond     :   False
     gc            :   False
 
@@ -47,9 +47,9 @@ bc_kwargs:
   loss_type       :   'MSE'
   batch_size      :   32 #200
   lr              :   1e-3
-  save_logs       :   True
+  save_logs       :   False
   finetune        :   False
-  proprio         :   ${proprio}  
+  proprio         :   ${proprio}
   proprio_only    :   False
 
 # general outputs

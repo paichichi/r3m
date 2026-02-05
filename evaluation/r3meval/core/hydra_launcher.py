@@ -8,7 +8,7 @@ import time as timer
 import hydra
 import multiprocessing
 from omegaconf import DictConfig, OmegaConf
-from train_loop import bc_train_loop
+from .train_loop import bc_train_loop
 
 cwd = os.getcwd()
 

@@ -10,13 +10,17 @@ from evaluation.r3meval.utils.gaussian_mlp import MLP
 from evaluation.r3meval.utils.behavior_cloning import BC
 from tabulate import tabulate
 from tqdm import tqdm
+# import gymnasium as gym
+# import robohive
 import mj_envs, gym
+# import gym
+import robohive
 import numpy as np, time as timer, multiprocessing, pickle, os
 import os
 from collections import namedtuple
 
 
-import metaworld
+# import metaworld
 # from metaworld.envs import (ALL_V3_ENVIRONMENTS_GOAL_OBSERVABLE,
 #                             ALL_V3_ENVIRONMENTS_GOAL_HIDDEN)
 
@@ -24,6 +28,7 @@ import metaworld
 def env_constructor(env_name, device='cuda', image_width=256, image_height=256,
                     camera_name=None, embedding_name='resnet50', pixel_based=True,
                     render_gpu_id=0, load_path="", proprio=False, lang_cond=False, gc=False):
+    print("env_name: ", env_name)
 
     ## If pixel based will wrap in a pixel observation wrapper
     if pixel_based:
