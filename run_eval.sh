@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-#set -e
-#
-## Headless MuJoCo rendering on HPC
-#export MUJOCO_GL=egl
-#unset DISPLAY
 
 python -m evaluation.r3meval.core.hydra_launcher --multirun \
   hydra/launcher=basic hydra/sweeper=basic hydra/output=local \
