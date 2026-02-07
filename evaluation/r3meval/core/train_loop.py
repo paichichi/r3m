@@ -10,11 +10,8 @@ from evaluation.r3meval.utils.gaussian_mlp import MLP
 from evaluation.r3meval.utils.behavior_cloning import BC
 from tabulate import tabulate
 from tqdm import tqdm
-# import gymnasium as gym
-# import robohive
 import mj_envs, gym
-# import gym
-import robohive
+
 import numpy as np, time as timer, multiprocessing, pickle, os
 import os
 from collections import namedtuple
