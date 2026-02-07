@@ -1,32 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="xli990@130.216.50.46:22 key (3)" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="xli990@130.216.50.46:22 key (10)" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="uoa-130.216.50.46-xli990">
+      <paths name="uoa-xli990-130.216.50.46">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
+            <mapping deploy="/paichichi/GitHub/r3m" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
       <paths name="xli990@130.216.50.46:22 key">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/pycharm_project_793" local="$PROJECT_DIR$" />
+            <mapping deploy="/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xli990@130.216.50.46:22 key (10)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xli990/paichichi/GitHub" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
       <paths name="xli990@130.216.50.46:22 key (2)">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
       <paths name="xli990@130.216.50.46:22 key (3)">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/pycharm_project_887" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xli990@130.216.50.46:22 key (4)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xli990@130.216.50.46:22 key (5)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xli990@130.216.50.46:22 key (6)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xli990@130.216.50.46:22 key (7)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_458" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xli990@130.216.50.46:22 key (8)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_376" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xli990@130.216.50.46:22 key (9)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xli990/paichichi/GitHub/r3m_old" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
