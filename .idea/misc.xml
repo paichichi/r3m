@@ -3,7 +3,7 @@
   <component name="Black">
     <option name="sdkName" value="Remote r3m (sftp://xli990@130.216.50.46:22null)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Remote r3m (sftp://xli990@130.216.50.46:22null)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote /home/xli990/miniconda3/envs/mjrl-env (sftp://xli990@130.216.50.46:22null)" project-jdk-type="Python SDK" />
   <component name="PyPackaging">
     <option name="earlyReleasesAsUpgrades" value="true" />
   </component>
