@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="xli990@130.216.50.46:22 key (11)" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="xli990@130.216.50.46:22 key (14)" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="uoa-xli990-130.216.50.46">
         <serverdata>
@@ -41,6 +41,13 @@
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xli990@130.216.50.46:22 key (14)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
