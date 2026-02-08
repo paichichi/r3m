@@ -7,6 +7,7 @@ Minimize bc loss (MLE, MSE, RWR etc.) with pytorch optimizers
 """
 
 import logging
+
 logging.disable(logging.CRITICAL)
 import numpy as np
 import time as timer
@@ -112,14 +113,17 @@ class BC:
         ## Encode images with environments encode function
         obs = self.encodefn(obs, finetune=self.finetune)
         act_expert = data['expert_actions'][idx]
+
+        device = next(self.policy.model.parameters()).device
+
         if type(obs) is not torch.Tensor:
-            obs = Variable(torch.from_numpy(obs).float(), requires_grad=False).cuda()
+            obs = Variable(torch.from_numpy(obs).float(), requires_grad=False).to(device)
 
         ## Concatenate proprioceptive data
         if self.proprio:
             proprio= data['proprio'][idx]
             if type(proprio) is not torch.Tensor:
-                proprio = Variable(torch.from_numpy(proprio).float(), requires_grad=False).cuda()
+                proprio = Variable(torch.from_numpy(proprio).float(), requires_grad=False).to(device)
             obs = torch.cat([obs, proprio], -1)
         if type(act_expert) is not torch.Tensor:
             act_expert = Variable(torch.from_numpy(act_expert).float(), requires_grad=False)
