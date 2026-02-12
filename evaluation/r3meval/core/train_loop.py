@@ -5,7 +5,7 @@
 from collections import namedtuple
 from evaluation.r3meval.utils.gym_env import GymEnv
 from evaluation.r3meval.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding
-from evaluation.r3meval.utils.sampling import sample_paths
+from evaluation.r3meval.utils.sampling import sample_paths, make_demo_reset_fn
 from evaluation.r3meval.utils.gaussian_mlp import MLP
 from evaluation.r3meval.utils.behavior_cloning import BC
 from tabulate import tabulate
@@ -109,6 +109,8 @@ def bc_train_loop(job_data:dict) -> None:
     ## Loads the demos
     demo_paths = pickle.load(open(demo_paths_loc, 'rb'))
     demo_paths = demo_paths[:job_data['num_demos']]
+    reset_fn = make_demo_reset_fn(demo_paths, t0=0)
+    # reset_fn = None
     print(len(demo_paths))
     demo_score = np.mean([np.sum(p['rewards']) for p in demo_paths])
     print("Demonstration score : %.2f " % demo_score)
@@ -147,21 +149,36 @@ def bc_train_loop(job_data:dict) -> None:
             agent.policy.model.eval()
             if job_data['pixel_based']:
                 e.env.embedding.eval()
-            paths = sample_paths(num_traj=job_data['eval_num_traj'], env=e, #env_constructor, 
-                                 policy=agent.policy, eval_mode=True, horizon=e.horizon, 
-                                 base_seed=job_data['seed']+epoch, num_cpu=job_data['num_cpu'], 
-                                 env_kwargs=env_kwargs)
-            
+            paths = sample_paths(num_traj=job_data['eval_num_traj'], env=e, #env_constructor,
+                                 policy=agent.policy, eval_mode=True, horizon=e.horizon,
+                                 base_seed=job_data['seed']+epoch, num_cpu=job_data['num_cpu'],
+                                 env_kwargs=env_kwargs, reset_fn=reset_fn)
+
             try:
                 ## Success computation and logging for Adroit and Kitchen
                 success_percentage = e.env.unwrapped.evaluate_success(paths)
+                # for i, path in enumerate(paths):
+                #     if (i < 10) and job_data['pixel_based']:
+                #         vid = path['images']
+                #         filename = f'./iterations/vid_{i}.gif'
+                #         from moviepy.editor import ImageSequenceClip
+                #         cl = ImageSequenceClip(vid, fps=20)
+                #         cl.write_gif(filename, fps=20)
+                saved = 0
                 for i, path in enumerate(paths):
-                    if (i < 10) and job_data['pixel_based']:
+                    # 兼容 solved 是 bool 序列
+                    solved_last = False
+                    if 'env_infos' in path and isinstance(path['env_infos'], dict) and 'solved' in path['env_infos']:
+                        solved_last = bool(path['env_infos']['solved'][-1])
+
+                    if solved_last and ('images' in path):
                         vid = path['images']
-                        filename = f'./iterations/vid_{i}.gif'
+                        filename = f'./iterations/success_vid_{i}.gif'
                         from moviepy.editor import ImageSequenceClip
-                        cl = ImageSequenceClip(vid, fps=20)
-                        cl.write_gif(filename, fps=20)
+                        ImageSequenceClip(vid, fps=20).write_gif(filename, fps=20)
+                        saved += 1
+                        if saved >= 3:
+                            break
             except:
                 ## Success computation and logging for MetaWorld
                 sc = []
