@@ -1,4 +1,4 @@
-outputs/
+evaluation/outputs/
 __pycache__/
 .nfs*
 *.ipynb*
