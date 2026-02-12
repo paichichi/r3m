@@ -109,8 +109,8 @@ def bc_train_loop(job_data:dict) -> None:
     ## Loads the demos
     demo_paths = pickle.load(open(demo_paths_loc, 'rb'))
     demo_paths = demo_paths[:job_data['num_demos']]
-    reset_fn = make_demo_reset_fn(demo_paths, t0=0)
-    # reset_fn = None
+    # reset_fn = make_demo_reset_fn(demo_paths, t0=0)
+    reset_fn = None
     print(len(demo_paths))
     demo_score = np.mean([np.sum(p['rewards']) for p in demo_paths])
     print("Demonstration score : %.2f " % demo_score)

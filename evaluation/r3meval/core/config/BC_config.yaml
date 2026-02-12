@@ -47,7 +47,7 @@ bc_kwargs:
   loss_type       :   'MSE'
   batch_size      :   32 #200
   lr              :   1e-3
-  save_logs       :   False
+  save_logs       :   True
   finetune        :   False
   proprio         :   ${proprio}
   proprio_only    :   False
