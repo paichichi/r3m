@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-export CUDA_VISIBLE_DEVICES=""
-export GPUS=""
+#export CUDA_VISIBLE_DEVICES=""
+#export GPUS=""
 
-python -m r3meval.core.hydra_launcher --multirun \
+python -u -m r3meval.core.hydra_launcher --multirun \
   hydra/launcher=local hydra/output=local \
   hydra.sweep.subdir='job_${hydra.job.num}' \
-  device=cpu\
   eval_frequency=1000 \
-  env=kitchen_knob1_on-v3\
+  env=kitchen_knob1_on-v3 \
   camera=left_cap2 \
   pixel_based=true \
   embedding=resnet50 \

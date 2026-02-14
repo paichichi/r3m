@@ -23,6 +23,7 @@ def init(module, weight_init, bias_init, gain=1):
     bias_init(module.bias.data)
     return module
 
+
 def _get_embedding(embedding_name='resnet34', load_path="", *args, **kwargs):
     if load_path == "random":
         prt = False
@@ -52,6 +53,7 @@ class ClipEnc(nn.Module):
     def __init__(self, m):
         super().__init__()
         self.m = m
+
     def forward(self, im):
         e = self.m.encode_image(im)
         return e
@@ -80,122 +82,44 @@ class StateEmbedding(gym.ObservationWrapper):
         self.proprio = proprio
         self.load_path = load_path
         self.start_finetune = False
-
-        # 先决定最终 device（CPU 模式就彻底 CPU）
-        if device == 'cuda' and torch.cuda.is_available():
-            print('Using CUDA.')
-            self.device = torch.device('cuda')
-        else:
-            print('Not using CUDA.')
-            self.device = torch.device('cpu')
-
         if load_path == "clip":
             import clip
-            model, cliptransforms = clip.load("RN50", device=str(self.device))
+            model, cliptransforms = clip.load("RN50", device="cuda")
             embedding = ClipEnc(model)
+            embedding.eval()
             embedding_dim = 1024
             self.transforms = cliptransforms
-
         elif (load_path == "random") or (load_path == ""):
             embedding, embedding_dim = _get_embedding(embedding_name=embedding_name, load_path=load_path)
-            self.transforms = T.Compose([
-                T.Resize(256),
-                T.CenterCrop(224),
-                T.ToTensor(),
-                T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-            ])
-
-        elif load_path == "r3m":
+            self.transforms = T.Compose([T.Resize(256),
+                                         T.CenterCrop(224),
+                                         T.ToTensor(),  # ToTensor() divides by 255
+                                         T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+        elif "r3m" == load_path:
             from r3m import load_r3m_reproduce
             rep = load_r3m_reproduce("r3m")
-
-            # 关键：拆 DataParallel
-            if isinstance(rep, torch.nn.DataParallel):
-                rep = rep.module
-
+            rep.eval()
+            embedding_dim = rep.module.outdim
             embedding = rep
-            embedding_dim = rep.outdim
-            self.transforms = T.Compose([
-                T.Resize(256),
-                T.CenterCrop(224),
-                T.ToTensor(),
-            ])
-
+            self.transforms = T.Compose([T.Resize(256),
+                                         T.CenterCrop(224),
+                                         T.ToTensor()])  # ToTensor() divides by 255
         else:
             raise NameError("Invalid Model")
-
-        print("embedding type:", type(embedding))
-
         embedding.eval()
-        embedding.to(self.device)
+
+        if device == 'cuda' and torch.cuda.is_available():
+            print('Using CUDA.')
+            device = torch.device('cuda')
+        else:
+            print('Not using CUDA.')
+            device = torch.device('cpu')
+        self.device = device
+        embedding.to(device=device)
 
         self.embedding, self.embedding_dim = embedding, embedding_dim
-        self.observation_space = Box(low=-np.inf, high=np.inf, shape=(self.embedding_dim + self.proprio,))
-
-    # def __init__(self, env, embedding_name=None, device='cuda', load_path="", proprio=0, camera_name=None, env_name=None):
-    #     gym.ObservationWrapper.__init__(self, env)
-    #
-    #     self.proprio = proprio
-    #     self.load_path = load_path
-    #     self.start_finetune = False
-    #     if load_path == "clip":
-    #         import clip
-    #         # model, cliptransforms = clip.load("RN50", device="cuda")
-    #         model, cliptransforms = clip.load("RN50", device=str(device))
-    #         embedding = ClipEnc(model)
-    #         embedding.eval()
-    #         embedding_dim = 1024
-    #         self.transforms = cliptransforms
-    #     elif (load_path == "random") or (load_path == ""):
-    #             embedding, embedding_dim = _get_embedding(embedding_name=embedding_name, load_path=load_path)
-    #             self.transforms = T.Compose([T.Resize(256),
-    #                         T.CenterCrop(224),
-    #                         T.ToTensor(), # ToTensor() divides by 255
-    #                         T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
-    #     # elif "r3m" == load_path:
-    #     #     from r3m import load_r3m_reproduce
-    #     #     rep = load_r3m_reproduce("r3m")
-    #     #     rep.eval()
-    #     #     embedding_dim = rep.module.outdim
-    #     #     embedding = rep
-    #     #     self.transforms = T.Compose([T.Resize(256),
-    #     #                 T.CenterCrop(224),
-    #     #                 T.ToTensor()]) # ToTensor() divides by 255
-    #     elif "r3m" == load_path:
-    #         from r3m import load_r3m_reproduce
-    #         rep = load_r3m_reproduce("r3m")
-    #
-    #         # 关键：CPU 模式下不能用 DataParallel
-    #         if isinstance(rep, torch.nn.DataParallel):
-    #             rep = rep.module
-    #
-    #         rep.eval()
-    #         embedding_dim = rep.outdim
-    #         embedding = rep
-    #
-    #         self.transforms = T.Compose([
-    #             T.Resize(256),
-    #             T.CenterCrop(224),
-    #             T.ToTensor()
-    #         ])
-    #     else:
-    #         raise NameError("Invalid Model")
-    #     print("embedding type:", type(embedding))
-    #
-    #     embedding.eval()
-    #
-    #     if device == 'cuda' and torch.cuda.is_available():
-    #         print('Using CUDA.')
-    #         device = torch.device('cuda')
-    #     else:
-    #         print('Not using CUDA.')
-    #         device = torch.device('cpu')
-    #     self.device = device
-    #     embedding.to(device=device)
-    #
-    #     self.embedding, self.embedding_dim = embedding, embedding_dim
-    #     self.observation_space = Box(
-    #                 low=-np.inf, high=np.inf, shape=(self.embedding_dim+self.proprio,))
+        self.observation_space = Box(
+            low=-np.inf, high=np.inf, shape=(self.embedding_dim + self.proprio,))
 
     def observation(self, observation):
         ### INPUT SHOULD BE [0,255]
@@ -235,7 +159,7 @@ class StateEmbedding(gym.ObservationWrapper):
             emb = self.embedding(inp).view(-1, self.embedding_dim)
         else:
             with torch.no_grad():
-                emb =  self.embedding(inp).view(-1, self.embedding_dim).to('cpu').numpy().squeeze()
+                emb = self.embedding(inp).view(-1, self.embedding_dim).to('cpu').numpy().squeeze()
         return emb
 
     def get_obs(self):
@@ -244,7 +168,7 @@ class StateEmbedding(gym.ObservationWrapper):
         else:
             # returns the state based observations
             return self.env.unwrapped.get_obs()
-          
+
     def start_finetuning(self):
         self.start_finetune = True
 
@@ -264,17 +188,16 @@ class MuJoCoPixelObs(gym.ObservationWrapper):
     def get_image(self):
         if self.camera_name == "default":
             print("Camera not supported")
-            assert(False)
+            assert (False)
             img = self.sim.render(width=self.width, height=self.height, depth=self.depth,
-                            device_id=self.device_id)
+                                  device_id=self.device_id)
         else:
             img = self.sim.render(width=self.width, height=self.height, depth=self.depth,
-                              camera_name=self.camera_name, device_id=self.device_id)
-        img = img[::-1,:,:]
+                                  camera_name=self.camera_name, device_id=self.device_id)
+        img = img[::-1, :, :]
         return img
 
     def observation(self, observation):
         # This function creates observations based on the current state of the environment.
         # Argument `observation` is ignored, but `gym.ObservationWrapper` requires it.
         return self.get_image()
-        
