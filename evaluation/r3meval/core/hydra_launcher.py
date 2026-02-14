@@ -24,12 +24,18 @@ def configure_jobs(job_data:dict) -> None:
     print("Job Configuration")
     print("========================================")
 
+    # job_data = OmegaConf.structured(OmegaConf.to_yaml(job_data))
+    print("before:", type(job_data))
     job_data = OmegaConf.structured(OmegaConf.to_yaml(job_data))
+    print("after:", type(job_data))
+
+    print("device:", OmegaConf.select(job_data, "device"))
 
     job_data['cwd'] = cwd
-    with open('job_config.json', 'w') as fp:
-        OmegaConf.save(config=job_data, f=fp.name)
+    OmegaConf.save(config=job_data, f="job_config.yaml")
+
     print(OmegaConf.to_yaml(job_data))
+
     bc_train_loop(job_data)
 
 if __name__ == "__main__":

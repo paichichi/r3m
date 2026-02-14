@@ -126,7 +126,7 @@ def bc_train_loop(job_data:dict) -> None:
     env_kwargs = job_data['env_kwargs']
     e, agent = make_bc_agent(env_kwargs=env_kwargs, bc_kwargs=job_data['bc_kwargs'], 
                              demo_paths=demo_paths, epochs=1, seed=job_data['seed'], pixel_based=job_data["pixel_based"])
-    agent.logger.init_wb(job_data)
+    # agent.logger.init_wb(job_data)
 
     highest_score = -np.inf
     max_success = 0
