@@ -2,18 +2,17 @@
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-from collections import namedtuple
-from evaluation.r3meval.utils.gym_env import GymEnv
-from evaluation.r3meval.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding
-from evaluation.r3meval.utils.sampling import sample_paths, make_demo_reset_fn
-from evaluation.r3meval.utils.gaussian_mlp import MLP
-from evaluation.r3meval.utils.behavior_cloning import BC
+from eval_v2.utils.gym_env import GymEnv
+# from eval_v2.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding
+from eval_v2.utils.sampling import sample_paths
+from eval_v2.utils.gaussian_mlp import MLP
+from eval_v2.utils.behavior_cloning import BC
+
 from tabulate import tabulate
-from tqdm import tqdm
 # import mj_envs, gym
 import gymnasium as gym
 
-import numpy as np, time as timer, multiprocessing, pickle, os
+import numpy as np, pickle
 import os
 from collections import namedtuple
 
@@ -99,7 +98,7 @@ def bc_train_loop(job_data:dict) -> None:
 
     # Infers the location of the demos
     ## V2 is metaworld, V0 adroit, V3 kitchen
-    data_dir = '/home/xli990/paichichi/data/r3m/'
+    data_dir = '/Users/xzha593/Documents/data/old_demo/'
     if "v2" in job_data['env_kwargs']['env_name']:
         demo_paths_loc = data_dir + 'final_paths_multiview_meta_200/' + job_data['camera'] + '/' + job_data['env_kwargs']['env_name'] + '.pickle'
     elif "v0" in job_data['env_kwargs']['env_name']:
@@ -110,8 +109,8 @@ def bc_train_loop(job_data:dict) -> None:
     ## Loads the demos
     demo_paths = pickle.load(open(demo_paths_loc, 'rb'))
     demo_paths = demo_paths[:job_data['num_demos']]
-    # reset_fn = make_demo_reset_fn(demo_paths, t0=0)
-    reset_fn = None
+
+    ## should show 200
     print(len(demo_paths))
     demo_score = np.mean([np.sum(p['rewards']) for p in demo_paths])
     print("Demonstration score : %.2f " % demo_score)
@@ -125,6 +124,7 @@ def bc_train_loop(job_data:dict) -> None:
 
     ## Creates agent and environment
     env_kwargs = job_data['env_kwargs']
+    print(env_kwargs)
     e, agent = make_bc_agent(env_kwargs=env_kwargs, bc_kwargs=job_data['bc_kwargs'], 
                              demo_paths=demo_paths, epochs=1, seed=job_data['seed'], pixel_based=job_data["pixel_based"])
     agent.logger.init_wb(job_data)

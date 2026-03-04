@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eval_v2"
+version = "0.1.0"
+description = "Brand new Gymnasium + MuJoCo evaluation suite (BC + online success rate)"
+requires-python = ">=3.11,<3.12"
+#dependencies = [
+#  "hydra-core>=1.3",
+#  "omegaconf>=2.3",
+#  "numpy",
+#  "tqdm",
+#  "tabulate",
+#  "gymnasium>=1.0",
+#  "mujoco>=3.0",
+#  "torch",
+#  # 如果你用 Franka Kitchen（gymnasium-robotics）就保留这一行
+#  "gymnasium-robotics",
+#  # 可选：保存视频
+#  "moviepy",
+#]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["eval_v2*"]

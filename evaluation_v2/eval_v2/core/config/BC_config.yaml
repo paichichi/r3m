@@ -11,7 +11,7 @@ env               :   pen-v0
 pixel_based       :   True                    # pixel based (True) or state based (False) experiment
 embedding         :   resnet50                # choice of embedding network
 camera            :   vil_camera              # choice of camera to use for image generation
-device            :   cpu
+device            :   auto
 
 # experiment and evaluation
 seed              :   123                     # used as base_seed for rolling out policy for eval in sample_paths
