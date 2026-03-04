@@ -2,8 +2,8 @@
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-default:
-    - override hydra/launcher: local
+defaults:
+    - override hydra/launcher: basic
     - override hydra/output: local
 
 # general inputs
@@ -11,7 +11,8 @@ env               :   pen-v0
 pixel_based       :   True                    # pixel based (True) or state based (False) experiment
 embedding         :   resnet50                # choice of embedding network
 camera            :   vil_camera              # choice of camera to use for image generation
-device            :   gpu
+device            :   auto
+task              :   microwave
 
 # experiment and evaluation
 seed              :   123                     # used as base_seed for rolling out policy for eval in sample_paths
@@ -25,6 +26,8 @@ proprio           :   0
 # environment related kwargs
 env_kwargs:
     env_name      :   ${env}
+    tasks_to_complete:
+      - ${task}
     device        :   ${device}               # device to use for representation network (policy clamped to CPU for now)
     image_width   :   256
     image_height  :   256

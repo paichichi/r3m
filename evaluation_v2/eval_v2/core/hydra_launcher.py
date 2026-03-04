@@ -40,7 +40,6 @@ def configure_jobs(job_data:dict) -> None:
         print("cuda name[0]    :", torch.cuda.get_device_name(0))
     print("mps available   :", hasattr(torch.backends, "mps") and torch.backends.mps.is_available())
 
-    # 写回配置，后续统一读取这个
     job_data["device"] = str(device)
     if "env_kwargs" in job_data:
         job_data["env_kwargs"]["device"] = str(device)
@@ -52,7 +51,7 @@ def configure_jobs(job_data:dict) -> None:
     job_data['cwd'] = cwd
     with open('job_config.json', 'w') as fp:
         OmegaConf.save(config=job_data, f=fp.name)
-    print(OmegaConf.to_yaml(job_data))
+    # print(OmegaConf.to_yaml(job_data))
 
     bc_train_loop(job_data)
 

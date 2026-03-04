@@ -3,9 +3,10 @@
 python eval_v2/core/hydra_launcher.py --multirun \
   hydra/launcher=basic hydra/output=local \
   hydra.sweep.subdir='job_${hydra.job.num}' \
-  device=gpu \
+  device=cuda \
   eval_frequency=1000 \
-  env=kitchen_knob1_on-v3 \
+  env=FrankaKitchen-v1 \
+  task="microwave" \
   camera=left_cap2 \
   pixel_based=true \
   embedding=resnet50 \
@@ -16,4 +17,4 @@ python eval_v2/core/hydra_launcher.py --multirun \
   job_name=r3m_eval_num_1_285k
 
 
-#env=kitchen_knob1_on-v3,kitchen_light_on-v3,kitchen_sdoor_open-v3,kitchen_ldoor_open-v3,kitchen_micro_open-v3 \
+#task="bottom burner","light switch","slide cabinet","hinge cabinet","microwave"
