@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 python eval_v2/core/hydra_launcher.py --multirun \
-  hydra/launcher=local hydra/output=local \
+  hydra/launcher=basic hydra/output=local \
   hydra.sweep.subdir='job_${hydra.job.num}' \
-  device=cpu \
+  device=gpu \
   eval_frequency=1000 \
   env=kitchen_knob1_on-v3 \
   camera=left_cap2 \

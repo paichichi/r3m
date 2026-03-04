@@ -31,9 +31,6 @@ def configure_jobs(job_data:dict) -> None:
     requested = str(job_data.get("device", "auto"))
     device = pick_device(requested)
 
-    print("========================================")
-    print("Device Debug")
-    print("========================================")
     print("requested device:", requested)
     print("selected device :", str(device))
     print("torch version   :", torch.__version__)
