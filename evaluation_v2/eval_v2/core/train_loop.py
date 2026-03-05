@@ -3,7 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 from eval_v2.utils.gym_env import GymEnv
-# from eval_v2.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding
+from eval_v2.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding
 from eval_v2.utils.sampling import sample_paths
 from eval_v2.utils.gaussian_mlp import MLP
 from eval_v2.utils.behavior_cloning import BC
@@ -112,7 +112,7 @@ def bc_train_loop(job_data:dict) -> None:
     print(len(demo_paths))
     demo_score = np.mean([np.sum(p['rewards']) for p in demo_paths])
     print("Demonstration score : %.2f " % demo_score)
-
+    reset_fn = None
     # Make log dir
     if os.path.isdir(job_data['job_name']) == False: os.mkdir(job_data['job_name'])
     previous_dir = os.getcwd()

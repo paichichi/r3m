@@ -16,12 +16,15 @@ dependencies = [
     "gymnasium>=1.0",
     "mujoco>=3.0",
     "torch>=2.1",
+    "torchvision",
     "gymnasium-robotics>=1.0",
     "scipy",
     "wandb",
     "hydra-submitit-launcher",
     "submitit",
     "moviepy",
+    'gdown==4.4.0',
+    'pillow==9.0.1',
 ]
 
 [tool.setuptools.packages.find]
