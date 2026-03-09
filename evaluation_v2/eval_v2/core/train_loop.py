@@ -3,7 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 from eval_v2.utils.gym_env import GymEnv
-from eval_v2.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding
+from eval_v2.utils.obs_wrappers import MuJoCoPixelObs, StateEmbedding, GymnasiumPixelObs
 from eval_v2.utils.sampling import sample_paths
 from eval_v2.utils.gaussian_mlp import MLP
 from eval_v2.utils.behavior_cloning import BC
@@ -30,11 +30,13 @@ def env_constructor(env_name, device='cuda', image_width=256, image_height=256,
 
     ## If pixel based will wrap in a pixel observation wrapper
     if pixel_based:
-        e = gym.make(env_name, tasks_to_complete=tasks_to_complete, render_mode="rgb_array")
+        e = gym.make(env_name, tasks_to_complete=tasks_to_complete, render_mode="rgb_array" , width=image_width, height=image_height,)
 
         ## Wrap in pixel observation wrapper
-        e = MuJoCoPixelObs(e, width=image_width, height=image_height, 
-                           camera_name=camera_name, device_id=render_gpu_id)
+        # e = MuJoCoPixelObs(e, width=image_width, height=image_height,
+        #                    camera_name=camera_name, device_id=render_gpu_id)
+
+        e = GymnasiumPixelObs(e, width=image_width, height=image_height, camera_name=camera_name)
         ## Wrapper which encodes state in pretrained model
         e = StateEmbedding(e, embedding_name=embedding_name, device=device, load_path=load_path, 
                         proprio=proprio, camera_name=camera_name, env_name=env_name)
@@ -48,13 +50,12 @@ def env_constructor(env_name, device='cuda', image_width=256, image_height=256,
 def make_bc_agent(env_kwargs:dict, bc_kwargs:dict, demo_paths:list, epochs:int, seed:int, pixel_based=True):
     ## Creates environment
     gym.register_envs(gymnasium_robotics)
-    print("woshiniba1")
     e = env_constructor(**env_kwargs)
 
     ## Creates MLP (Where the FC Network has a batchnorm in front of it)
     policy = MLP(e.spec, hidden_sizes=(256, 256), seed=seed)
     policy.model.proprio_only = False
-    print("woshiniba2")
+
     ## Pass the encoder params to the BC agent (for finetuning)
     if pixel_based:
         enc_p = e.env.embedding.parameters()
@@ -62,7 +63,6 @@ def make_bc_agent(env_kwargs:dict, bc_kwargs:dict, demo_paths:list, epochs:int, 
         print("Only supports pixel based")
         assert(False)
 
-    print("woshiniba3")
     bc_agent = BC(demo_paths, policy=policy, epochs=epochs, set_transforms=False, encoder_params=enc_p, **bc_kwargs)
 
     ## Pass the environmetns observation encoder to the BC agent to encode demo data
@@ -88,7 +88,7 @@ def configure_cluster_GPUs(gpu_logical_id: int) -> int:
 
 
 def bc_train_loop(job_data:dict) -> None:
-
+    os.environ["MUJOCO_GL"] = "egl"
     # configure GPUs
     os.environ['GPUS'] = os.environ.get('SLURM_STEP_GPUS', '0')
     physical_gpu_id = 0 #configure_cluster_GPUs(job_data['env_kwargs']['render_gpu_id'])
@@ -102,7 +102,7 @@ def bc_train_loop(job_data:dict) -> None:
     elif "v0" in job_data['env_kwargs']['env_name']:
         demo_paths_loc = data_dir + 'final_paths_multiview_adroit_200/' + job_data['camera'] + '/' + job_data['env_kwargs']['env_name'] + '.pickle'
     else:
-        demo_paths_loc = data_dir + 'franka_kitchen-v1/' + job_data['camera'] + '/' + task_name + '.pickle'
+        demo_paths_loc = data_dir + 'franka_kitchen-v1/' + task_name + '.pickle'
 
     ## Loads the demos
     demo_paths = pickle.load(open(demo_paths_loc, 'rb'))

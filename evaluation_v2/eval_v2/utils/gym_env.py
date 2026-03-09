@@ -82,30 +82,84 @@ class GymEnv(object):
     def horizon(self):
         return self._horizon
 
+    # def reset(self, seed=None):
+    #     try:
+    #         self.env._elapsed_steps = 0
+    #         return self.env.unwrapped.reset_model(seed=seed)
+    #     except:
+    #         if seed is not None:
+    #             self.set_seed(seed)
+    #         return self.env.reset()
     def reset(self, seed=None):
+        # gymnasium: reset returns (obs, info)
+        if seed is not None:
+            out = self.env.reset(seed=seed)
+        else:
+            out = self.env.reset()
+
+        if isinstance(out, tuple) and len(out) == 2:
+            obs, info = out
+        else:
+            obs = out  # compatible with old env
+
         try:
-            self.env._elapsed_steps = 0
-            return self.env.unwrapped.reset_model(seed=seed)
-        except:
-            if seed is not None:
-                self.set_seed(seed)
-            return self.env.reset()
+            return self.obs_mask * obs
+        except Exception:
+            return obs
 
     def reset_model(self, seed=None):
         # overloading for legacy code
         return self.reset(seed)
 
+    # def step(self, action):
+    #     action = action.clip(self.action_space.low, self.action_space.high)
+    #     if self.act_repeat == 1:
+    #         obs, cum_reward, done, ifo = self.env.step(action)
+    #     else:
+    #         cum_reward = 0.0
+    #         for i in range(self.act_repeat):
+    #             obs, reward, done, ifo = self.env.step(action)
+    #             cum_reward += reward
+    #             if done: break
+    #     return self.obs_mask * obs, cum_reward, done, ifo
     def step(self, action):
         action = action.clip(self.action_space.low, self.action_space.high)
+
         if self.act_repeat == 1:
-            obs, cum_reward, done, ifo = self.env.step(action)
+            out = self.env.step(action)
+
+            if isinstance(out, tuple) and len(out) == 5:
+                obs, reward, terminated, truncated, info = out
+                done = bool(terminated or truncated)
+            else:
+                obs, reward, done, info = out
+
+            cum_reward = reward
+
         else:
             cum_reward = 0.0
-            for i in range(self.act_repeat):
-                obs, reward, done, ifo = self.env.step(action)
+            done = False
+            info = {}
+            obs = None
+
+            for _ in range(self.act_repeat):
+                out = self.env.step(action)
+
+                if isinstance(out, tuple) and len(out) == 5:
+                    obs, reward, terminated, truncated, info = out
+                    d = bool(terminated or truncated)
+                else:
+                    obs, reward, d, info = out
+
                 cum_reward += reward
-                if done: break
-        return self.obs_mask * obs, cum_reward, done, ifo
+                done = done or d
+                if done:
+                    break
+
+        try:
+            return self.obs_mask * obs, cum_reward, done, info
+        except Exception:
+            return obs, cum_reward, done, info
 
     def render(self):
         try:
@@ -115,10 +169,44 @@ class GymEnv(object):
             self.env.render()
 
     def set_seed(self, seed=123):
+        """
+        Gymnasium-compatible seeding.
+        Prefer reset(seed=seed) over legacy seed() / _seed().
+        """
         try:
-            self.env.seed(seed)
-        except AttributeError:
-            self.env._seed(seed)
+            self.env.reset(seed=seed)
+            return
+        except TypeError:
+            pass
+        except Exception:
+            pass
+
+        inner = getattr(self.env, "env", None)
+        if inner is not None:
+            try:
+                inner.reset(seed=seed)
+                return
+            except TypeError:
+                pass
+            except Exception:
+                pass
+
+        if hasattr(self.env, "seed"):
+            return self.env.seed(seed)
+        if hasattr(self.env, "_seed"):
+            return self.env._seed(seed)
+
+        if inner is not None:
+            if hasattr(inner, "seed"):
+                return inner.seed(seed)
+            if hasattr(inner, "_seed"):
+                return inner._seed(seed)
+
+        raise AttributeError("No compatible seeding method found for wrapped env.")
+
+    def seed(self, seed=123):
+        # legacy alias for older code that calls env.seed(...)
+        return self.set_seed(seed)
 
     def get_obs(self):
         try:

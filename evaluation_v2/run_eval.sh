@@ -4,10 +4,9 @@ python eval_v2/core/hydra_launcher.py --multirun \
   hydra/launcher=basic hydra/output=local \
   hydra.sweep.subdir='job_${hydra.job.num}' \
   device=cuda \
-  eval_frequency=1000 \
+  eval_frequency=100 \
   env=FrankaKitchen-v1 \
   task="microwave" \
-  camera=left_cap2 \
   pixel_based=true \
   embedding=resnet50 \
   num_demos=1 \

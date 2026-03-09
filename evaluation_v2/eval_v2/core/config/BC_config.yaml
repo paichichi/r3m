@@ -31,7 +31,7 @@ env_kwargs:
     device        :   ${device}               # device to use for representation network (policy clamped to CPU for now)
     image_width   :   256
     image_height  :   256
-    camera_name   :   ${camera}
+    camera_name   :   null
     embedding_name :  ${embedding}
     pixel_based   :   ${pixel_based}
     render_gpu_id :   0

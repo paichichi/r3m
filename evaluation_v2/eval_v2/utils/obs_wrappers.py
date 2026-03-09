@@ -4,7 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 import numpy as np
 import gymnasium as gym
-from gymnasium.spaces.box import Box
+from gymnasium.core import ObsType, WrapperObsType
+from gymnasium.spaces import Box, Dict
 import omegaconf
 import torch
 import torch.nn as nn
@@ -132,93 +133,67 @@ class StateEmbedding(gym.ObservationWrapper):
         self.embedding, self.embedding_dim = embedding, embedding_dim
         self.observation_space = Box(low=-np.inf, high=np.inf, shape=(self.embedding_dim + self.proprio,))
 
-    # def __init__(self, env, embedding_name=None, device='cuda', load_path="", proprio=0, camera_name=None, env_name=None):
-    #     gym.ObservationWrapper.__init__(self, env)
+
+    # def observation(self, observation):
     #
-    #     self.proprio = proprio
-    #     self.load_path = load_path
-    #     self.start_finetune = False
-    #     if load_path == "clip":
-    #         import clip
-    #         # model, cliptransforms = clip.load("RN50", device="cuda")
-    #         model, cliptransforms = clip.load("RN50", device=str(device))
-    #         embedding = ClipEnc(model)
-    #         embedding.eval()
-    #         embedding_dim = 1024
-    #         self.transforms = cliptransforms
-    #     elif (load_path == "random") or (load_path == ""):
-    #             embedding, embedding_dim = _get_embedding(embedding_name=embedding_name, load_path=load_path)
-    #             self.transforms = T.Compose([T.Resize(256),
-    #                         T.CenterCrop(224),
-    #                         T.ToTensor(), # ToTensor() divides by 255
-    #                         T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
-    #     # elif "r3m" == load_path:
-    #     #     from r3m import load_r3m_reproduce
-    #     #     rep = load_r3m_reproduce("r3m")
-    #     #     rep.eval()
-    #     #     embedding_dim = rep.module.outdim
-    #     #     embedding = rep
-    #     #     self.transforms = T.Compose([T.Resize(256),
-    #     #                 T.CenterCrop(224),
-    #     #                 T.ToTensor()]) # ToTensor() divides by 255
-    #     elif "r3m" == load_path:
-    #         from r3m import load_r3m_reproduce
-    #         rep = load_r3m_reproduce("r3m")
+    #     ### INPUT SHOULD BE [0,255]
+    #     if self.embedding is not None:
+    #         inp = self.transforms(Image.fromarray(observation.astype(np.uint8))).reshape(-1, 3, 224, 224)
+    #         if "r3m" in self.load_path:
+    #             ## R3M Expects input to be 0-255, preprocess makes 0-1
+    #             inp *= 255.0
+    #         inp = inp.to(self.device)
+    #         with torch.no_grad():
+    #             emb = self.embedding(inp).view(-1, self.embedding_dim).to('cpu').numpy().squeeze()
     #
-    #         # 关键：CPU 模式下不能用 DataParallel
-    #         if isinstance(rep, torch.nn.DataParallel):
-    #             rep = rep.module
+    #         ## IF proprioception add it to end of embedding
+    #         if self.proprio:
+    #             try:
+    #                 proprio = self.env.unwrapped.get_obs()[:self.proprio]
+    #             except:
+    #                 proprio = self.env.unwrapped._get_obs()[:self.proprio]
+    #             emb = np.concatenate([emb, proprio])
     #
-    #         rep.eval()
-    #         embedding_dim = rep.outdim
-    #         embedding = rep
-    #
-    #         self.transforms = T.Compose([
-    #             T.Resize(256),
-    #             T.CenterCrop(224),
-    #             T.ToTensor()
-    #         ])
+    #         return emb
     #     else:
-    #         raise NameError("Invalid Model")
-    #     print("embedding type:", type(embedding))
-    #
-    #     embedding.eval()
-    #
-    #     if device == 'cuda' and torch.cuda.is_available():
-    #         print('Using CUDA.')
-    #         device = torch.device('cuda')
-    #     else:
-    #         print('Not using CUDA.')
-    #         device = torch.device('cpu')
-    #     self.device = device
-    #     embedding.to(device=device)
-    #
-    #     self.embedding, self.embedding_dim = embedding, embedding_dim
-    #     self.observation_space = Box(
-    #                 low=-np.inf, high=np.inf, shape=(self.embedding_dim+self.proprio,))
+    #         return observation
 
     def observation(self, observation):
-        ### INPUT SHOULD BE [0,255]
-        if self.embedding is not None:
-            inp = self.transforms(Image.fromarray(observation.astype(np.uint8))).reshape(-1, 3, 224, 224)
-            if "r3m" in self.load_path:
-                ## R3M Expects input to be 0-255, preprocess makes 0-1
-                inp *= 255.0
-            inp = inp.to(self.device)
-            with torch.no_grad():
-                emb = self.embedding(inp).view(-1, self.embedding_dim).to('cpu').numpy().squeeze()
-
-            ## IF proprioception add it to end of embedding
-            if self.proprio:
-                try:
-                    proprio = self.env.unwrapped.get_obs()[:self.proprio]
-                except:
-                    proprio = self.env.unwrapped._get_obs()[:self.proprio]
-                emb = np.concatenate([emb, proprio])
-
-            return emb
-        else:
+        """
+        observation can be:
+          1) np.ndarray image: H x W x 3 uint8
+          2) dict: {"image": img, "state": state_vec}
+        """
+        if self.embedding is None:
             return observation
+
+        state = None
+        if isinstance(observation, dict):
+            img = observation["image"]
+            state = observation.get("state", None)
+        else:
+            img = observation
+
+        inp = self.transforms(Image.fromarray(img.astype(np.uint8))).reshape(1, 3, 224, 224)
+
+        if "r3m" in self.load_path:
+            inp *= 255.0
+
+        inp = inp.to(self.device)
+
+        with torch.no_grad():
+            emb = self.embedding(inp).view(-1, self.embedding_dim).cpu().numpy()
+
+        emb = emb[0]
+
+        if self.proprio and state is not None:
+            state = np.asarray(state).reshape(-1)
+            proprio = state[:self.proprio]
+            emb = np.concatenate([emb, proprio], axis=0)
+
+        return emb
+
+
 
     def encode_batch(self, obs, finetune=False):
         ### INPUT SHOULD BE [0,255]
@@ -277,4 +252,60 @@ class MuJoCoPixelObs(gym.ObservationWrapper):
         # This function creates observations based on the current state of the environment.
         # Argument `observation` is ignored, but `gym.ObservationWrapper` requires it.
         return self.get_image()
-        
+
+class GymnasiumPixelObs(gym.ObservationWrapper):
+    """
+        Pixel observation wrapper for Gymnasium environments that support render_mode="rgb_array".
+        Returns image observations as HxWx3 uint8 in [0,255].
+    """
+    def __init__(self, env, width=256, height=256, camera_name=None, depth=False, *args, **kwargs):
+        gym.ObservationWrapper.__init__(self, env)
+        super().__init__(env)
+        self.width = int(width)
+        self.height = int(height)
+        self.camera_name = camera_name
+        self.depth = depth
+        # self.device_id = device_id
+        # 原始 state space
+        state_space = env.observation_space
+        print("state_space type:", type(state_space))
+        print("state_space:", state_space)
+        # 新的 observation space: dict(image, state)
+        self.observation_space = Dict({
+            "image": Box(
+                low=0,
+                high=255,
+                shape=(self.height, self.width, 3),
+                dtype=np.uint8,
+            ),
+            "state": state_space,
+        })
+
+    def get_image(self):
+        img = self.env.render()
+        if img is None:
+            raise RuntimeError(
+                "env.render() returned None. Make sure render_mode='rgb_array' when creating the env."
+            )
+
+        img = np.asarray(img)
+
+        if img.dtype != np.uint8:
+            img = img.astype(np.uint8)
+
+        if img.ndim != 3 or img.shape[-1] != 3:
+            raise ValueError(f"Unexpected image shape: {img.shape}")
+
+        return img
+
+    def observation(self, observation):
+        #state_space type: <class 'gymnasium.spaces.dict.Dict'>
+        if isinstance(observation, dict) and "observation" in observation:
+            state_vec = observation["observation"]
+        else:
+            state_vec = observation
+
+        return {
+            "image": self.get_image(),
+            "state": state_vec,
+        }
