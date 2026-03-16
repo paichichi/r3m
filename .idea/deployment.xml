@@ -5,7 +5,7 @@
       <paths name="xli990@130.216.50.46:22 key">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/xli990/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
+            <mapping deploy="/paichichi/GitHub/r3m" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
