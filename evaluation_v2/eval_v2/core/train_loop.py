@@ -155,14 +155,21 @@ def bc_train_loop(job_data:dict) -> None:
 
             try:
                 ## Success computation and logging for Adroit and Kitchen
+                import inspect
+
+                u = e.env.unwrapped
+                print("unwrapped class:", type(u))
+                print("module:", type(u).__module__)
+                print("file:", inspect.getfile(type(u)))
+
+                # 看 evaluate_success 是否存在
+                print("has evaluate_success:", hasattr(u, "evaluate_success"))
+                if hasattr(u, "evaluate_success"):
+                    print("evaluate_success defined in:", inspect.getfile(u.evaluate_success))
+                    print("source:\n", inspect.getsource(u.evaluate_success))
+
                 success_percentage = e.env.unwrapped.evaluate_success(paths)
-                # for i, path in enumerate(paths):
-                #     if (i < 10) and job_data['pixel_based']:
-                #         vid = path['images']
-                #         filename = f'./iterations/vid_{i}.gif'
-                #         from moviepy.editor import ImageSequenceClip
-                #         cl = ImageSequenceClip(vid, fps=20)
-                #         cl.write_gif(filename, fps=20)
+
                 saved = 0
                 for i, path in enumerate(paths):
                     # 兼容 solved 是 bool 序列
