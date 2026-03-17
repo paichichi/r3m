@@ -86,6 +86,39 @@ def configure_cluster_GPUs(gpu_logical_id: int) -> int:
         print("No GPUs detected. Defaulting to 0 as the device ID")
     return gpu_id
 
+import numpy as np
+
+def evaluate_success(paths):
+    """
+    Gymnasium FrankaKitchen-v1 success:
+    episode_task_completions is a per-step list of tasks completed so far.
+    success if task is in the last step's episode_task_completions.
+    """
+    if len(paths) == 0:
+        return 0.0
+
+    ttc = paths[0]["env_infos"].get("tasks_to_complete", None)
+    if ttc is None:
+        raise KeyError("env_infos missing tasks_to_complete; cannot infer task.")
+
+    t_last = ttc[-1] if hasattr(ttc, "__len__") else ttc
+    task = t_last[0] if isinstance(t_last, (list, tuple)) else t_last
+
+    sc = []
+    for p in paths:
+        ep = p["env_infos"].get("episode_task_completions", None)
+        if ep is None:
+            sc.append(False)
+            continue
+
+        last = ep[-1]
+        if isinstance(last, (list, tuple, set)):
+            sc.append(task in last)
+        elif isinstance(last, dict):
+            sc.append(bool(last.get(task, False)))
+        else:
+            sc.append(bool(last))
+    return float(np.mean(sc) * 100.0)
 
 def bc_train_loop(job_data:dict) -> None:
     os.environ["MUJOCO_GL"] = "egl"
@@ -112,7 +145,7 @@ def bc_train_loop(job_data:dict) -> None:
     print(len(demo_paths))
     demo_score = np.mean([np.sum(p['rewards']) for p in demo_paths])
     print("Demonstration score : %.2f " % demo_score)
-    reset_fn = None
+
     # Make log dir
     if os.path.isdir(job_data['job_name']) == False: os.mkdir(job_data['job_name'])
     previous_dir = os.getcwd()
@@ -148,43 +181,27 @@ def bc_train_loop(job_data:dict) -> None:
             agent.policy.model.eval()
             if job_data['pixel_based']:
                 e.env.embedding.eval()
+            #agent.policy 就是我们当前迭代循环中 学到的 action policy 去跑 job_data['eval_num_traj']，然后采集的结果 记为 输出paths
             paths = sample_paths(num_traj=job_data['eval_num_traj'], env=e, #env_constructor,
                                  policy=agent.policy, eval_mode=True, horizon=e.horizon,
                                  base_seed=job_data['seed']+epoch, num_cpu=job_data['num_cpu'],
-                                 env_kwargs=env_kwargs, reset_fn=reset_fn)
+                                 env_kwargs=env_kwargs)
 
             try:
                 ## Success computation and logging for Adroit and Kitchen
-                import inspect
 
-                u = e.env.unwrapped
-                print("unwrapped class:", type(u))
-                print("module:", type(u).__module__)
-                print("file:", inspect.getfile(type(u)))
+                success_percentage = evaluate_success(paths)
+                p0 = paths[0]
+                print("last episode_task_completions:", p0["env_infos"]["episode_task_completions"][-1])
+                print("last step_task_completions:", p0["env_infos"]["step_task_completions"][-1])
 
-                # 看 evaluate_success 是否存在
-                print("has evaluate_success:", hasattr(u, "evaluate_success"))
-                if hasattr(u, "evaluate_success"):
-                    print("evaluate_success defined in:", inspect.getfile(u.evaluate_success))
-                    print("source:\n", inspect.getsource(u.evaluate_success))
-
-                success_percentage = e.env.unwrapped.evaluate_success(paths)
-
-                saved = 0
                 for i, path in enumerate(paths):
-                    # 兼容 solved 是 bool 序列
-                    solved_last = False
-                    if 'env_infos' in path and isinstance(path['env_infos'], dict) and 'solved' in path['env_infos']:
-                        solved_last = bool(path['env_infos']['solved'][-1])
-
-                    if solved_last and ('images' in path):
+                    if (i < 10) and job_data['pixel_based']:
                         vid = path['images']
-                        filename = f'./iterations/success_vid_{i}.gif'
+                        filename = f'./iterations/vid_{i}.gif'
                         from moviepy.editor import ImageSequenceClip
-                        ImageSequenceClip(vid, fps=20).write_gif(filename, fps=20)
-                        saved += 1
-                        if saved >= 3:
-                            break
+                        cl = ImageSequenceClip(vid, fps=20)
+                        cl.write_gif(filename, fps=20)
             except:
                 ## Success computation and logging for MetaWorld
                 sc = []
