@@ -1,5 +1,5 @@
 evaluation/outputs/
 __pycache__/
 .nfs*
-*.ipynb*
+.ipynb_checkpoints/
 *.egg*
