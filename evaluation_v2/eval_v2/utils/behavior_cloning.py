@@ -16,13 +16,6 @@ from torch.autograd import Variable
 from eval_v2.utils.logger import DataLog
 from tqdm import tqdm
 
-import numpy as np
-import time as timer
-import torch
-from torch.autograd import Variable
-from eval_v2.utils.logger import DataLog
-from tqdm import tqdm
-
 
 class BC:
     def __init__(self, expert_paths,
