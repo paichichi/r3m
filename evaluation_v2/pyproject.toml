@@ -24,7 +24,7 @@ dependencies = [
     "submitit",
     "moviepy",
     'gdown==4.4.0',
-    'pillow==9.0.1',
+    #'pillow==9.0.1',
 ]
 
 [tool.setuptools.packages.find]
