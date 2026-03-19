@@ -1,0 +1,3 @@
+- device=cuda
+- eval_frequency=1000
+- env=FrankaKitchen-v1

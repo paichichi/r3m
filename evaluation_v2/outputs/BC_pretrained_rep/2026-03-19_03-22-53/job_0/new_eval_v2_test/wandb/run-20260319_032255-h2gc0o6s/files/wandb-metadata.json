@@ -1,0 +1,56 @@
+{
+  "os":  "Linux-6.14.0-36-generic-x86_64-with-glibc2.39",
+  "python":  "CPython 3.11.14",
+  "startedAt":  "2026-03-18T14:22:55.928093Z",
+  "args":  [
+    "--multirun",
+    "hydra/launcher=basic",
+    "hydra/output=local",
+    "hydra.sweep.subdir=job_${hydra.job.num}",
+    "device=cuda",
+    "eval_frequency=1000",
+    "env=FrankaKitchen-v1",
+    "task=microwave",
+    "pixel_based=true",
+    "embedding=resnet50",
+    "num_demos=1",
+    "env_kwargs.load_path=r3m",
+    "bc_kwargs.finetune=false",
+    "proprio=9",
+    "job_name=new_eval_v2_test"
+  ],
+  "program":  "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/hydra_launcher.py",
+  "codePath":  "evaluation_v2/eval_v2/core/hydra_launcher.py",
+  "git":  {
+    "remote":  "https://github.com/paichichi/r3m.git",
+    "commit":  "30470632eb7c4ce067b95184fb2cac9ea6469f29"
+  },
+  "email":  "xzha593@aucklanduni.ac.nz",
+  "root":  "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/outputs/BC_pretrained_rep/2026-03-19_03-22-53/job_0/new_eval_v2_test",
+  "host":  "sc474189",
+  "executable":  "/home/xli990/miniconda3/envs/eval_set_v2/bin/python",
+  "cpu_count":  24,
+  "cpu_count_logical":  24,
+  "gpu":  "NVIDIA GeForce RTX 5090",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "1966736678912",
+      "used":  "336310378496"
+    }
+  },
+  "memory":  {
+    "total":  "134482530304"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce RTX 5090",
+      "memoryTotal":  "34190917632",
+      "cudaCores":  21760,
+      "architecture":  "Blackwell",
+      "uuid":  "GPU-8c1f195f-0eb4-db8d-0c7f-d352566a5f5a"
+    }
+  ],
+  "cudaVersion":  "13.0",
+  "writerId":  "8dr2vrcfolkb96yl1cuubbf9gcvj16g2"
+}

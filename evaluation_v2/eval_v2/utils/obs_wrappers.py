@@ -82,14 +82,6 @@ class StateEmbedding(gym.ObservationWrapper):
         self.load_path = load_path
         self.start_finetune = False
 
-        # 先决定最终 device（CPU 模式就彻底 CPU）
-        if device == 'cuda' and torch.cuda.is_available():
-            print('Using CUDA.')
-            self.device = torch.device('cuda')
-        else:
-            print('Not using CUDA.')
-            self.device = torch.device('cpu')
-
         if load_path == "clip":
             import clip
             model, cliptransforms = clip.load("RN50", device=str(self.device))
@@ -107,56 +99,44 @@ class StateEmbedding(gym.ObservationWrapper):
             ])
 
         elif load_path == "r3m":
+            # from r3m import load_r3m_reproduce
+            # rep = load_r3m_reproduce("r3m")
+
+            # # 关键：拆 DataParallel
+            # if isinstance(rep, torch.nn.DataParallel):
+            #     rep = rep.module
+
+            # embedding = rep
+            # embedding_dim = rep.outdim
+            # self.transforms = T.Compose([
+            #     T.Resize(256),
+            #     T.CenterCrop(224),
+            #     T.ToTensor(),
+            # ])
             from r3m import load_r3m_reproduce
             rep = load_r3m_reproduce("r3m")
-
-            # 关键：拆 DataParallel
-            if isinstance(rep, torch.nn.DataParallel):
-                rep = rep.module
-
+            rep.eval()
+            embedding_dim = rep.module.outdim
             embedding = rep
-            embedding_dim = rep.outdim
-            self.transforms = T.Compose([
-                T.Resize(256),
-                T.CenterCrop(224),
-                T.ToTensor(),
-            ])
+            self.transforms = T.Compose([T.Resize(256),
+                        T.CenterCrop(224),
+                        T.ToTensor()]) # ToTensor() divides by 255
 
         else:
             raise NameError("Invalid Model")
-
-        print("embedding type:", type(embedding))
-
         embedding.eval()
-        embedding.to(self.device)
+
+        if device == 'cuda' and torch.cuda.is_available():
+            print('Using CUDA.')
+            device = torch.device('cuda')
+        else:
+            print('Not using CUDA.')
+            device = torch.device('cpu')
+        self.device = device
+        embedding.to(device=device)
 
         self.embedding, self.embedding_dim = embedding, embedding_dim
         self.observation_space = Box(low=-np.inf, high=np.inf, shape=(self.embedding_dim + self.proprio,))
-
-
-    # def observation(self, observation):
-    #
-    #     ### INPUT SHOULD BE [0,255]
-    #     if self.embedding is not None:
-    #         inp = self.transforms(Image.fromarray(observation.astype(np.uint8))).reshape(-1, 3, 224, 224)
-    #         if "r3m" in self.load_path:
-    #             ## R3M Expects input to be 0-255, preprocess makes 0-1
-    #             inp *= 255.0
-    #         inp = inp.to(self.device)
-    #         with torch.no_grad():
-    #             emb = self.embedding(inp).view(-1, self.embedding_dim).to('cpu').numpy().squeeze()
-    #
-    #         ## IF proprioception add it to end of embedding
-    #         if self.proprio:
-    #             try:
-    #                 proprio = self.env.unwrapped.get_obs()[:self.proprio]
-    #             except:
-    #                 proprio = self.env.unwrapped._get_obs()[:self.proprio]
-    #             emb = np.concatenate([emb, proprio])
-    #
-    #         return emb
-    #     else:
-    #         return observation
 
     def observation(self, observation):
         """

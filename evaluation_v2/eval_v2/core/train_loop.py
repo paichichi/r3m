@@ -30,7 +30,8 @@ def env_constructor(env_name, device='cuda', image_width=256, image_height=256,
 
     ## If pixel based will wrap in a pixel observation wrapper
     if pixel_based:
-        e = gym.make(env_name, tasks_to_complete=tasks_to_complete, render_mode="rgb_array" , width=image_width, height=image_height,)
+        print("Creating pixel-based environment: ", tasks_to_complete)
+        e = gym.make(env_name, tasks_to_complete=[tasks_to_complete], render_mode="rgb_array" , width=image_width, height=image_height,)
 
         ## Wrap in pixel observation wrapper
         # e = MuJoCoPixelObs(e, width=image_width, height=image_height,
@@ -126,7 +127,7 @@ def bc_train_loop(job_data:dict) -> None:
     os.environ['GPUS'] = os.environ.get('SLURM_STEP_GPUS', '0')
     physical_gpu_id = 0 #configure_cluster_GPUs(job_data['env_kwargs']['render_gpu_id'])
     job_data['env_kwargs']['render_gpu_id'] = physical_gpu_id
-    task_name = job_data['env_kwargs']['tasks_to_complete'][0]
+    task_name = job_data['env_kwargs']['tasks_to_complete']
     # Infers the location of the demos
     ## V2 is metaworld, V0 adroit, V3 kitchen
     data_dir = '/home/xli990/paichichi/data/r3m/'
@@ -139,10 +140,11 @@ def bc_train_loop(job_data:dict) -> None:
 
     ## Loads the demos
     demo_paths = pickle.load(open(demo_paths_loc, 'rb'))
+    ## should show 200
+    print("lens of demos",len(demo_paths))
+
     demo_paths = demo_paths[:job_data['num_demos']]
 
-    ## should show 200
-    print(len(demo_paths))
     demo_score = np.mean([np.sum(p['rewards']) for p in demo_paths])
     print("Demonstration score : %.2f " % demo_score)
 
@@ -155,7 +157,7 @@ def bc_train_loop(job_data:dict) -> None:
 
     ## Creates agent and environment
     env_kwargs = job_data['env_kwargs']
-    print(env_kwargs)
+    # print(env_kwargs)
     e, agent = make_bc_agent(env_kwargs=env_kwargs, bc_kwargs=job_data['bc_kwargs'], 
                              demo_paths=demo_paths, epochs=1, seed=job_data['seed'], pixel_based=job_data["pixel_based"])
     agent.logger.init_wb(job_data)

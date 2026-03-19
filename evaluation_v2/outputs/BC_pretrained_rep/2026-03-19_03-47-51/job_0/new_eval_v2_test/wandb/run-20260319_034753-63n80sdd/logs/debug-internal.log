@@ -1,0 +1,8 @@
+{"time":"2026-03-19T03:47:53.882744518+13:00","level":"INFO","msg":"stream: starting","core version":"0.25.0"}
+{"time":"2026-03-19T03:47:54.294287782+13:00","level":"INFO","msg":"stream: created new stream","id":"63n80sdd"}
+{"time":"2026-03-19T03:47:54.294476912+13:00","level":"INFO","msg":"handler: started","stream_id":"63n80sdd"}
+{"time":"2026-03-19T03:47:54.294652885+13:00","level":"INFO","msg":"stream: started","id":"63n80sdd"}
+{"time":"2026-03-19T03:47:54.294701906+13:00","level":"INFO","msg":"writer: started","stream_id":"63n80sdd"}
+{"time":"2026-03-19T03:47:54.29474735+13:00","level":"INFO","msg":"sender: started","stream_id":"63n80sdd"}
+{"time":"2026-03-19T04:23:10.413792412+13:00","level":"ERROR","msg":"api: HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/files/xzha593-unitersity-of-auckland/r3mbc/63n80sdd/file_stream"}
+{"time":"2026-03-19T04:23:10.413926068+13:00","level":"ERROR+4","msg":"filestream: fatal error: filestream: failed to upload: 404 Not Found url=https://api.wandb.ai/files/xzha593-unitersity-of-auckland/r3mbc/63n80sdd/file_stream: {\"error\":\"run r3mbc/63n80sdd not found while streaming file\"}"}

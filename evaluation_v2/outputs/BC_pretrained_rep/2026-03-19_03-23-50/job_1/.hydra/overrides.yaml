@@ -1,0 +1,11 @@
+- device=cuda
+- eval_frequency=1000
+- env=FrankaKitchen-v1
+- task=light\ switch
+- pixel_based=True
+- embedding=resnet50
+- num_demos=1
+- env_kwargs.load_path=r3m
+- bc_kwargs.finetune=False
+- proprio=9
+- job_name=new_eval_v2_test

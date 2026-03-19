@@ -1,0 +1,47 @@
+Error executing job with overrides: ['device=cuda', 'eval_frequency=1000', 'env=FrankaKitchen-v1']
+Traceback (most recent call last):
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/hydra_launcher.py", line 56, in configure_jobs
+    bc_train_loop(job_data)
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/train_loop.py", line 180, in bc_train_loop
+    agent.train(job_data['pixel_based'], suppress_fit_tqdm=True, step = last_step)
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/behavior_cloning.py", line 182, in train
+    self.fit(data, **kwargs)
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/behavior_cloning.py", line 143, in fit
+    loss_val = self.loss(data, idx=range(num_samples)).data.numpy().ravel()[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/behavior_cloning.py", line 91, in loss
+    return self.mse_loss(data, idx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/behavior_cloning.py", line 114, in mse_loss
+    obs = self.encodefn(obs, finetune=self.finetune)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/obs_wrappers.py", line 213, in encode_batch
+    emb =  self.embedding(inp).view(-1, self.embedding_dim).to('cpu').numpy().squeeze()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torchvision/models/resnet.py", line 285, in forward
+    return self._forward_impl(x)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torchvision/models/resnet.py", line 268, in _forward_impl
+    x = self.conv1(x)
+        ^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 553, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 548, in _conv_forward
+    return F.conv2d(
+           ^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 29.91 GiB. GPU 0 has a total capacity of 31.35 GiB of which 13.00 GiB is free. Process 664815 has 622.00 MiB memory in use. Process 1424498 has 1004.00 MiB memory in use. Process 1486343 has 1.22 GiB memory in use. Process 3470681 has 1.82 GiB memory in use. Process 1150066 has 1.67 GiB memory in use. Process 1151458 has 1.67 GiB memory in use. Process 1216515 has 1.67 GiB memory in use. Process 1218179 has 1.67 GiB memory in use. Including non-PyTorch memory, this process has 6.21 GiB memory in use. Of the allocated memory 5.70 GiB is allocated by PyTorch, and 29.90 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

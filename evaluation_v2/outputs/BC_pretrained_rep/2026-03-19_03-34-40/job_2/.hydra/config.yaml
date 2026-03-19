@@ -1,0 +1,40 @@
+env: FrankaKitchen-v1
+pixel_based: true
+embedding: resnet50
+camera: vil_camera
+device: cuda
+task: slide cabinet
+seed: 123
+steps: 20000
+eval_frequency: 1000
+eval_num_traj: 50
+num_cpu: 1
+num_demos: 1
+proprio: 9
+env_kwargs:
+  env_name: ${env}
+  tasks_to_complete:
+  - ${task}
+  device: ${device}
+  image_width: 256
+  image_height: 256
+  camera_name: null
+  embedding_name: ${embedding}
+  pixel_based: ${pixel_based}
+  render_gpu_id: 0
+  load_path: r3m
+  proprio: ${proprio}
+  lang_cond: false
+  gc: false
+reparse_kwargs:
+  visualize: true
+  save_frames: true
+bc_kwargs:
+  loss_type: MSE
+  batch_size: 32
+  lr: 0.001
+  save_logs: true
+  finetune: false
+  proprio: ${proprio}
+  proprio_only: false
+job_name: new_eval_v2_test

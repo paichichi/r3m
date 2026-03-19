@@ -1,0 +1,20 @@
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra_plugins/hydra_submitit_launcher/submitit_launcher.py:71: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  return run_job(
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gdown/__init__.py:3: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torch/nn/modules/loss.py:44: UserWarning: size_average and reduce args will be deprecated, please use reduction='none' instead.
+  self.reduction: str = _Reduction.legacy_get_string(size_average, reduce)
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=None`.
+  warnings.warn(msg)
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/xli990/.netrc.
+wandb: Currently logged in as: xzha593 (xzha593-unitersity-of-auckland) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run hku4lv5p
+wandb: Tracking run with wandb version 0.25.0
+wandb: Run data is saved locally in /home/xli990/paichichi/GitHub/r3m/evaluation_v2/outputs/BC_pretrained_rep/2026-03-19_06-29-36/0_bc_kwargs.finetune=False,device=cuda,embedding=resnet50,env=FrankaKitchen-v1,env_kwargs.load_path=r3m,eval_frequency=1000,job_name=new_eval_v2_test,num_demos=1,pixel_based=True,proprio=9,task=bottom\ burner/new_eval_v2_test/wandb/run-20260319_062940-hku4lv5p
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run new_eval_v2_test
+wandb: ⭐️ View project at https://wandb.ai/xzha593-unitersity-of-auckland/r3mbc
+wandb: 🚀 View run at https://wandb.ai/xzha593-unitersity-of-auckland/r3mbc/runs/hku4lv5p

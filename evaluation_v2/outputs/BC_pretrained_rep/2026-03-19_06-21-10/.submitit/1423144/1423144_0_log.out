@@ -1,0 +1,112 @@
+submitit INFO (2026-03-19 06:21:10,797) - Starting with JobEnvironment(job_id=1423144, hostname=sc474189, local_rank=0(1), node=0(1), global_rank=0(1))
+submitit INFO (2026-03-19 06:21:10,797) - Loading pickle: /home/xli990/paichichi/GitHub/r3m/evaluation_v2/outputs/BC_pretrained_rep/2026-03-19_06-21-10/.submitit/1423144/1423144_submitted.pkl
+========================================
+Job Configuration
+========================================
+env: FrankaKitchen-v1
+pixel_based: true
+embedding: resnet50
+camera: vil_camera
+device: cuda
+task: light switch
+seed: 123
+steps: 20000
+eval_frequency: 1000
+eval_num_traj: 50
+num_cpu: 1
+num_demos: 1
+proprio: 9
+env_kwargs:
+  env_name: FrankaKitchen-v1
+  tasks_to_complete: light switch
+  device: cuda
+  image_width: 256
+  image_height: 256
+  camera_name: null
+  embedding_name: resnet50
+  pixel_based: true
+  render_gpu_id: 0
+  load_path: r3m
+  proprio: 9
+  lang_cond: false
+  gc: false
+reparse_kwargs:
+  visualize: true
+  save_frames: true
+bc_kwargs:
+  loss_type: MSE
+  batch_size: 32
+  lr: 0.001
+  save_logs: true
+  finetune: false
+  proprio: 9
+  proprio_only: false
+job_name: new_eval_v2_test
+cwd: /home/xli990/paichichi/GitHub/r3m/evaluation_v2
+
+lens of demos 200
+Demonstration score : 9.35 
+env_name:  FrankaKitchen-v1
+Creating pixel-based environment:  light switch
+state_space type: <class 'gymnasium.spaces.dict.Dict'>
+state_space: Dict('achieved_goal': Dict('light switch': Box(-inf, inf, (2,), float64)), 'desired_goal': Dict('light switch': Box(-inf, inf, (2,), float64)), 'observation': Box(-inf, inf, (59,), float64))
+Using CUDA.
+embedding type: <class 'r3m.models.models_r3m.R3M'>
+dict_keys(['env', 'pixel_based', 'embedding', 'camera', 'device', 'task', 'seed', 'steps', 'eval_frequency', 'eval_num_traj', 'num_cpu', 'num_demos', 'proprio', 'env_kwargs', 'reparse_kwargs', 'bc_kwargs', 'job_name', 'cwd'])
+job_name: new_eval_v2_test
+Step 0
+Step 1
+Step 2
+Step 3
+Step 4
+Step 5
+Step 6
+Step 7
+Step 8
+Step 9
+Step 10
+Step 11
+Step 12
+Step 13
+Step 14
+Step 15
+Step 16
+Step 17
+Step 18
+Step 19
+Step 20
+Step 21
+Step 22
+Step 23
+Step 24
+Step 25
+Step 26
+Step 27
+Step 28
+Step 29
+Step 30
+Step 31
+Step 32
+Step 33
+Step 34
+Step 35
+Step 36
+Step 37
+Step 38
+Step 39
+Step 40
+Step 41
+Step 42
+Step 43
+Step 44
+Step 45
+Step 46
+Step 47
+Step 48
+Step 49
+Step 50
+Step 51
+Step 52
+Step 53
+Step 54
+Step 55

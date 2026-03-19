@@ -1,0 +1,2 @@
+submitit INFO (2026-03-19 06:09:54,784) - Starting with JobEnvironment(job_id=1396959, hostname=sc474189, local_rank=0(1), node=0(1), global_rank=0(1))
+submitit INFO (2026-03-19 06:09:54,784) - Loading pickle: /home/xli990/paichichi/GitHub/r3m/evaluation_v2/outputs/BC_pretrained_rep/2026-03-19_06-09-54/.submitit/1396959/1396959_submitted.pkl

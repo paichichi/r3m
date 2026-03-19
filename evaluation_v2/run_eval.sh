@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
+# 运行 Hydra 实验
 python eval_v2/core/hydra_launcher.py --multirun \
-  hydra/launcher=basic hydra/output=local \
-  hydra.sweep.subdir='job_${hydra.job.num}' \
+  hydra/launcher=local hydra/output=local \
   device=cuda \
   eval_frequency=1000 \
   env=FrankaKitchen-v1 \
-  task="microwave" \
+  task="bottom burner","light switch" \
   pixel_based=true \
   embedding=resnet50 \
   num_demos=1 \
@@ -17,3 +17,4 @@ python eval_v2/core/hydra_launcher.py --multirun \
 
 
 #task="bottom burner","light switch","slide cabinet","hinge cabinet","microwave"
+# task="bottom burner, light switch, slide cabinet, hinge cabinet, microwave"

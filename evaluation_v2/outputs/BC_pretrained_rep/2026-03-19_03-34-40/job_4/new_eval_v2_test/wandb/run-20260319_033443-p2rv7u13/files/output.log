@@ -1,0 +1,70 @@
+Evaluating
+Traceback (most recent call last):
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/hydra_launcher.py", line 60, in <module>
+    configure_jobs()
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/_internal/utils.py", line 465, in _run_app
+    run_and_report(
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+           ^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/_internal/utils.py", line 466, in <lambda>
+    lambda: hydra.multirun(
+            ^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/_internal/hydra.py", line 162, in multirun
+    ret = sweeper.sweep(arguments=task_overrides)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/_internal/core_plugins/basic_sweeper.py", line 177, in sweep
+    results = self.launcher.launch(batch, initial_job_idx=initial_job_idx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/_internal/core_plugins/basic_launcher.py", line 74, in launch
+    ret = run_job(
+          ^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/hydra_launcher.py", line 56, in configure_jobs
+    bc_train_loop(job_data)
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/train_loop.py", line 185, in bc_train_loop
+    #agent.policy 就是我们当前迭代循环中 学到的 action policy 去跑 job_data['eval_num_traj']，然后采集的结果 记为 输出paths
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/sampling.py", line 194, in sample_paths
+    return do_rollout(**input_dict)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/sampling.py", line 139, in do_rollout
+    next_o, r, done, env_info_step = env.step(a)
+                                     ^^^^^^^^^^^
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/gym_env.py", line 129, in step
+    out = self.env.step(action)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium/core.py", line 560, in step
+    observation, reward, terminated, truncated, info = self.env.step(action)
+                                                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium/core.py", line 560, in step
+    observation, reward, terminated, truncated, info = self.env.step(action)
+                                                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium/wrappers/common.py", line 125, in step
+    observation, reward, terminated, truncated, info = self.env.step(action)
+                                                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium/wrappers/common.py", line 393, in step
+    return super().step(action)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium/core.py", line 327, in step
+    return self.env.step(action)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium/wrappers/common.py", line 285, in step
+    return self.env.step(action)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium_robotics/envs/franka_kitchen/kitchen_env.py", line 400, in step
+    robot_obs, _, terminated, truncated, info = self.robot_env.step(action)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium_robotics/envs/franka_kitchen/franka_env.py", line 103, in step
+    self.do_simulation(ctrl_feasible, self.frame_skip)
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_env.py", line 199, in do_simulation
+    self._step_mujoco_simulation(ctrl, n_frames)
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_env.py", line 147, in _step_mujoco_simulation
+    mujoco.mj_step(self.model, self.data, nstep=n_frames)
+KeyboardInterrupt

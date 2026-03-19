@@ -1,0 +1,159 @@
+_wandb:
+    value:
+        cli_version: 0.25.0
+        e:
+            mkwxk2g02oj3gqe3cxdx89b0cbk1msqo:
+                args:
+                    - --multirun
+                    - hydra/launcher=basic
+                    - hydra/output=local
+                    - device=cuda
+                    - eval_frequency=1000
+                    - env=FrankaKitchen-v1
+                    - task=bottom burner, light switch, slide cabinet, hinge cabinet, microwave
+                    - pixel_based=true
+                    - embedding=resnet50
+                    - num_demos=1
+                    - env_kwargs.load_path=r3m
+                    - bc_kwargs.finetune=false
+                    - proprio=9
+                    - job_name=new_eval_v2_test
+                codePath: evaluation_v2/eval_v2/core/hydra_launcher.py
+                cpu_count: 24
+                cpu_count_logical: 24
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "1966736678912"
+                        used: "344543223808"
+                email: xzha593@aucklanduni.ac.nz
+                executable: /home/xli990/miniconda3/envs/eval_set_v2/bin/python
+                git:
+                    commit: 30470632eb7c4ce067b95184fb2cac9ea6469f29
+                    remote: https://github.com/paichichi/r3m.git
+                gpu: NVIDIA GeForce RTX 5090
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Blackwell
+                      cudaCores: 21760
+                      memoryTotal: "34190917632"
+                      name: NVIDIA GeForce RTX 5090
+                      uuid: GPU-8c1f195f-0eb4-db8d-0c7f-d352566a5f5a
+                host: sc474189
+                memory:
+                    total: "134482530304"
+                os: Linux-6.14.0-36-generic-x86_64-with-glibc2.39
+                program: /home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/hydra_launcher.py
+                python: CPython 3.11.14
+                root: /home/xli990/paichichi/GitHub/r3m/evaluation_v2/outputs/BC_pretrained_rep/2026-03-19_05-13-49/0_bc_kwargs.finetune=False,device=cuda,embedding=resnet50,env=FrankaKitchen-v1,env_kwargs.load_path=r3m,eval_frequency=1000,job_name=new_eval_v2_test,num_demos=1,pixel_based=True,proprio=9,task=bottom\ burner/new_eval_v2_test
+                startedAt: "2026-03-18T16:13:51.998960Z"
+                writerId: mkwxk2g02oj3gqe3cxdx89b0cbk1msqo
+        m: []
+        python_version: 3.11.14
+        t:
+            "1":
+                - 1
+                - 41
+                - 50
+            "2":
+                - 1
+                - 41
+                - 50
+            "3":
+                - 13
+                - 24
+                - 61
+            "4": 3.11.14
+            "5": 0.25.0
+            "12": 0.25.0
+            "13": linux-x86_64
+batch_size:
+    value: 32
+bc_kwargs:
+    value:
+        batch_size: 32
+        finetune: false
+        loss_type: MSE
+        lr: 0.001
+        proprio: 9
+        proprio_only: false
+        save_logs: true
+camera:
+    value: vil_camera
+camera_name:
+    value: null
+cwd:
+    value: /home/xli990/paichichi/GitHub/r3m/evaluation_v2
+device:
+    value: cuda
+embedding:
+    value: resnet50
+embedding_name:
+    value: resnet50
+env:
+    value: FrankaKitchen-v1
+env_kwargs:
+    value:
+        camera_name: null
+        device: cuda
+        embedding_name: resnet50
+        env_name: FrankaKitchen-v1
+        gc: false
+        image_height: 256
+        image_width: 256
+        lang_cond: false
+        load_path: r3m
+        pixel_based: true
+        proprio: 9
+        render_gpu_id: 0
+        tasks_to_complete: bottom burner
+env_name:
+    value: FrankaKitchen-v1
+eval_frequency:
+    value: 1000
+eval_num_traj:
+    value: 50
+finetune:
+    value: false
+gc:
+    value: false
+image_height:
+    value: 256
+image_width:
+    value: 256
+job_name:
+    value: new_eval_v2_test
+lang_cond:
+    value: false
+load_path:
+    value: r3m
+loss_type:
+    value: MSE
+lr:
+    value: 0.001
+num_cpu:
+    value: 1
+num_demos:
+    value: 1
+pixel_based:
+    value: true
+proprio:
+    value: 9
+proprio_only:
+    value: false
+render_gpu_id:
+    value: 0
+reparse_kwargs:
+    value:
+        save_frames: true
+        visualize: true
+save_logs:
+    value: true
+seed:
+    value: 123
+steps:
+    value: 200
+task:
+    value: bottom burner
+tasks_to_complete:
+    value: bottom burner

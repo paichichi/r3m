@@ -1,0 +1,481 @@
+Step 0
+Step 1
+Step 2
+Step 3
+Step 4
+Step 5
+Step 6
+Step 7
+Step 8
+Step 9
+Step 10
+Step 11
+Step 12
+Step 13
+Step 14
+Step 15
+Step 16
+Step 17
+Step 18
+Step 19
+Step 20
+Step 21
+Step 22
+Step 23
+Step 24
+Step 25
+Step 26
+Step 27
+Step 28
+Step 29
+Step 30
+Step 31
+Step 32
+Step 33
+Step 34
+Step 35
+Step 36
+Step 37
+Step 38
+Step 39
+Step 40
+Step 41
+Step 42
+Step 43
+Step 44
+Step 45
+Step 46
+Step 47
+Step 48
+Step 49
+Step 50
+Step 51
+Step 52
+Step 53
+Step 54
+Step 55
+Step 56
+Step 57
+Step 58
+Step 59
+Step 60
+Step 61
+Step 62
+Step 63
+Step 64
+Step 65
+Step 66
+Step 67
+Step 68
+Step 69
+Step 70
+Step 71
+Step 72
+Step 73
+Step 74
+Step 75
+Step 76
+Step 77
+Step 78
+Step 79
+Step 80
+Step 81
+Step 82
+Step 83
+Step 84
+Step 85
+Step 86
+Step 87
+Step 88
+Step 89
+Step 90
+Step 91
+Step 92
+Step 93
+Step 94
+Step 95
+Step 96
+Step 97
+Step 98
+Step 99
+Step 100
+Step 101
+Step 102
+Step 103
+Step 104
+Step 105
+Step 106
+Step 107
+Step 108
+Step 109
+Step 110
+Step 111
+Step 112
+Step 113
+Step 114
+Step 115
+Step 116
+Step 117
+Step 118
+Step 119
+Step 120
+Step 121
+Step 122
+Step 123
+Step 124
+Step 125
+Step 126
+Step 127
+Step 128
+Step 129
+Step 130
+Step 131
+Step 132
+Step 133
+Step 134
+Step 135
+Step 136
+Step 137
+Step 138
+Step 139
+Step 140
+Step 141
+Step 142
+Step 143
+Step 144
+Step 145
+Step 146
+Step 147
+Step 148
+Step 149
+Step 150
+Step 151
+Step 152
+Step 153
+Step 154
+Step 155
+Step 156
+Step 157
+Step 158
+Step 159
+Step 160
+Step 161
+Step 162
+Step 163
+Step 164
+Step 165
+Step 166
+Step 167
+Step 168
+Step 169
+Step 170
+Step 171
+Step 172
+Step 173
+Step 174
+Step 175
+Step 176
+Step 177
+Step 178
+Step 179
+Step 180
+Step 181
+Step 182
+Step 183
+Step 184
+Step 185
+Step 186
+Step 187
+Step 188
+Step 189
+Step 190
+Step 191
+Step 192
+Step 193
+Step 194
+Step 195
+Step 196
+Step 197
+Step 198
+Step 199
+Step 200
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/hydra/_internal/core_plugins/basic_launcher.py:74: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  ret = run_job(
+========================================
+Job Configuration
+========================================
+requested device: cuda
+selected device : cuda
+torch version   : 2.10.0+cu128
+cuda available  : True
+cuda device cnt : 1
+cuda name[0]    : NVIDIA GeForce RTX 5090
+mps available   : False
+env: FrankaKitchen-v1
+pixel_based: true
+embedding: resnet50
+camera: vil_camera
+device: cuda
+task: light switch
+seed: 123
+steps: 200
+eval_frequency: 1000
+eval_num_traj: 50
+num_cpu: 1
+num_demos: 1
+proprio: 9
+env_kwargs:
+  env_name: FrankaKitchen-v1
+  tasks_to_complete: light switch
+  device: cuda
+  image_width: 256
+  image_height: 256
+  camera_name: null
+  embedding_name: resnet50
+  pixel_based: true
+  render_gpu_id: 0
+  load_path: r3m
+  proprio: 9
+  lang_cond: false
+  gc: false
+reparse_kwargs:
+  visualize: true
+  save_frames: true
+bc_kwargs:
+  loss_type: MSE
+  batch_size: 32
+  lr: 0.001
+  save_logs: true
+  finetune: false
+  proprio: 9
+  proprio_only: false
+job_name: new_eval_v2_test
+cwd: /home/xli990/paichichi/GitHub/r3m/evaluation_v2
+
+lens of demos 200
+Demonstration score : 9.35
+env_name:  FrankaKitchen-v1
+Creating pixel-based environment:  light switch
+state_space type: <class 'gymnasium.spaces.dict.Dict'>
+state_space: Dict('achieved_goal': Dict('light switch': Box(-inf, inf, (2,), float64)), 'desired_goal': Dict('light switch': Box(-inf, inf, (2,), float64)), 'observation': Box(-inf, inf, (59,), float64))
+Using CUDA.
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torch/nn/modules/loss.py:44: UserWarning: size_average and reduce args will be deprecated, please use reduction='none' instead.
+  self.reduction: str = _Reduction.legacy_get_string(size_average, reduce)
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=None`.
+  warnings.warn(msg)
+embedding type: <class 'r3m.models.models_r3m.R3M'>
+dict_keys(['env', 'pixel_based', 'embedding', 'camera', 'device', 'task', 'seed', 'steps', 'eval_frequency', 'eval_num_traj', 'num_cpu', 'num_demos', 'proprio', 'env_kwargs', 'reparse_kwargs', 'bc_kwargs', 'job_name', 'cwd'])
+job_name: new_eval_v2_test
+[34m[1mwandb[0m: wandb.init() called while a run is active and reinit is set to 'default', so returning the previous run.
+========================================
+Job Configuration
+========================================
+requested device: cuda
+selected device : cuda
+torch version   : 2.10.0+cu128
+cuda available  : True
+cuda device cnt : 1
+cuda name[0]    : NVIDIA GeForce RTX 5090
+mps available   : False
+env: FrankaKitchen-v1
+pixel_based: true
+embedding: resnet50
+camera: vil_camera
+device: cuda
+task: slide cabinet
+seed: 123
+steps: 200
+eval_frequency: 1000
+eval_num_traj: 50
+num_cpu: 1
+num_demos: 1
+proprio: 9
+env_kwargs:
+  env_name: FrankaKitchen-v1
+  tasks_to_complete: slide cabinet
+  device: cuda
+  image_width: 256
+  image_height: 256
+  camera_name: null
+  embedding_name: resnet50
+  pixel_based: true
+  render_gpu_id: 0
+  load_path: r3m
+  proprio: 9
+  lang_cond: false
+  gc: false
+reparse_kwargs:
+  visualize: true
+  save_frames: true
+bc_kwargs:
+  loss_type: MSE
+  batch_size: 32
+  lr: 0.001
+  save_logs: true
+  finetune: false
+  proprio: 9
+  proprio_only: false
+job_name: new_eval_v2_test
+cwd: /home/xli990/paichichi/GitHub/r3m/evaluation_v2
+
+lens of demos 200
+Demonstration score : 12.30
+env_name:  FrankaKitchen-v1
+Creating pixel-based environment:  slide cabinet
+state_space type: <class 'gymnasium.spaces.dict.Dict'>
+state_space: Dict('achieved_goal': Dict('slide cabinet': Box(-inf, inf, (1,), float64)), 'desired_goal': Dict('slide cabinet': Box(-inf, inf, (1,), float64)), 'observation': Box(-inf, inf, (59,), float64))
+Using CUDA.
+embedding type: <class 'r3m.models.models_r3m.R3M'>
+dict_keys(['env', 'pixel_based', 'embedding', 'camera', 'device', 'task', 'seed', 'steps', 'eval_frequency', 'eval_num_traj', 'num_cpu', 'num_demos', 'proprio', 'env_kwargs', 'reparse_kwargs', 'bc_kwargs', 'job_name', 'cwd'])
+job_name: new_eval_v2_test
+[34m[1mwandb[0m: wandb.init() called while a run is active and reinit is set to 'default', so returning the previous run.
+========================================
+Job Configuration
+========================================
+requested device: cuda
+selected device : cuda
+torch version   : 2.10.0+cu128
+cuda available  : True
+cuda device cnt : 1
+cuda name[0]    : NVIDIA GeForce RTX 5090
+mps available   : False
+env: FrankaKitchen-v1
+pixel_based: true
+embedding: resnet50
+camera: vil_camera
+device: cuda
+task: hinge cabinet
+seed: 123
+steps: 200
+eval_frequency: 1000
+eval_num_traj: 50
+num_cpu: 1
+num_demos: 1
+proprio: 9
+env_kwargs:
+  env_name: FrankaKitchen-v1
+  tasks_to_complete: hinge cabinet
+  device: cuda
+  image_width: 256
+  image_height: 256
+  camera_name: null
+  embedding_name: resnet50
+  pixel_based: true
+  render_gpu_id: 0
+  load_path: r3m
+  proprio: 9
+  lang_cond: false
+  gc: false
+reparse_kwargs:
+  visualize: true
+  save_frames: true
+bc_kwargs:
+  loss_type: MSE
+  batch_size: 32
+  lr: 0.001
+  save_logs: true
+  finetune: false
+  proprio: 9
+  proprio_only: false
+job_name: new_eval_v2_test
+cwd: /home/xli990/paichichi/GitHub/r3m/evaluation_v2
+
+lens of demos 200
+Demonstration score : -25.18
+env_name:  FrankaKitchen-v1
+Creating pixel-based environment:  hinge cabinet
+state_space type: <class 'gymnasium.spaces.dict.Dict'>
+state_space: Dict('achieved_goal': Dict('hinge cabinet': Box(-inf, inf, (2,), float64)), 'desired_goal': Dict('hinge cabinet': Box(-inf, inf, (2,), float64)), 'observation': Box(-inf, inf, (59,), float64))
+Using CUDA.
+embedding type: <class 'r3m.models.models_r3m.R3M'>
+dict_keys(['env', 'pixel_based', 'embedding', 'camera', 'device', 'task', 'seed', 'steps', 'eval_frequency', 'eval_num_traj', 'num_cpu', 'num_demos', 'proprio', 'env_kwargs', 'reparse_kwargs', 'bc_kwargs', 'job_name', 'cwd'])
+job_name: new_eval_v2_test
+[34m[1mwandb[0m: wandb.init() called while a run is active and reinit is set to 'default', so returning the previous run.
+========================================
+Job Configuration
+========================================
+requested device: cuda
+selected device : cuda
+torch version   : 2.10.0+cu128
+cuda available  : True
+cuda device cnt : 1
+cuda name[0]    : NVIDIA GeForce RTX 5090
+mps available   : False
+env: FrankaKitchen-v1
+pixel_based: true
+embedding: resnet50
+camera: vil_camera
+device: cuda
+task: microwave
+seed: 123
+steps: 200
+eval_frequency: 1000
+eval_num_traj: 50
+num_cpu: 1
+num_demos: 1
+proprio: 9
+env_kwargs:
+  env_name: FrankaKitchen-v1
+  tasks_to_complete: microwave
+  device: cuda
+  image_width: 256
+  image_height: 256
+  camera_name: null
+  embedding_name: resnet50
+  pixel_based: true
+  render_gpu_id: 0
+  load_path: r3m
+  proprio: 9
+  lang_cond: false
+  gc: false
+reparse_kwargs:
+  visualize: true
+  save_frames: true
+bc_kwargs:
+  loss_type: MSE
+  batch_size: 32
+  lr: 0.001
+  save_logs: true
+  finetune: false
+  proprio: 9
+  proprio_only: false
+job_name: new_eval_v2_test
+cwd: /home/xli990/paichichi/GitHub/r3m/evaluation_v2
+
+lens of demos 200
+Demonstration score : -15.85
+env_name:  FrankaKitchen-v1
+Creating pixel-based environment:  microwave
+state_space type: <class 'gymnasium.spaces.dict.Dict'>
+state_space: Dict('achieved_goal': Dict('microwave': Box(-inf, inf, (1,), float64)), 'desired_goal': Dict('microwave': Box(-inf, inf, (1,), float64)), 'observation': Box(-inf, inf, (59,), float64))
+Using CUDA.
+embedding type: <class 'r3m.models.models_r3m.R3M'>
+dict_keys(['env', 'pixel_based', 'embedding', 'camera', 'device', 'task', 'seed', 'steps', 'eval_frequency', 'eval_num_traj', 'num_cpu', 'num_demos', 'proprio', 'env_kwargs', 'reparse_kwargs', 'bc_kwargs', 'job_name', 'cwd'])
+job_name: new_eval_v2_test
+[34m[1mwandb[0m: wandb.init() called while a run is active and reinit is set to 'default', so returning the previous run.
+Error executing job with overrides: ['device=cuda', 'eval_frequency=1000', 'env=FrankaKitchen-v1', 'task=light\\ switch', 'pixel_based=True', 'embedding=resnet50', 'num_demos=1', 'env_kwargs.load_path=r3m', 'bc_kwargs.finetune=False', 'proprio=9', 'job_name=new_eval_v2_test']
+Traceback (most recent call last):
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/hydra_launcher.py", line 56, in configure_jobs
+    bc_train_loop(job_data)
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/core/train_loop.py", line 163, in bc_train_loop
+    agent.logger.init_wb(job_data)
+  File "/home/xli990/paichichi/GitHub/r3m/evaluation_v2/eval_v2/utils/logger.py", line 35, in init_wb
+    wandb.config.update(fullcfg)
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/wandb/sdk/wandb_config.py", line 188, in update
+    sanitized = self._update(d, allow_val_change)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/wandb/sdk/wandb_config.py", line 181, in _update
+    sanitized = self._sanitize_dict(
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/wandb/sdk/wandb_config.py", line 268, in _sanitize_dict
+    k, v = self._sanitize(k, v, allow_val_change)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xli990/miniconda3/envs/eval_set_v2/lib/python3.11/site-packages/wandb/sdk/wandb_config.py", line 292, in _sanitize
+    raise config_util.ConfigError(
+wandb.sdk.lib.config_util.ConfigError: Attempted to change value of key "task" from bottom burner to light switch
+If you really want to do this, pass allow_val_change=True to config.update()
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

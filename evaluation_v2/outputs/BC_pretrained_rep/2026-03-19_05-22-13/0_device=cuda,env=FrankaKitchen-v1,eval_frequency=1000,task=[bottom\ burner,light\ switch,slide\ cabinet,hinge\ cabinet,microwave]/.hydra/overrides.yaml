@@ -1,0 +1,4 @@
+- device=cuda
+- eval_frequency=1000
+- env=FrankaKitchen-v1
+- task=[bottom\ burner,light\ switch,slide\ cabinet,hinge\ cabinet,microwave]

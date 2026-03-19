@@ -1,0 +1,6 @@
+{"time":"2026-03-19T06:31:35.783562861+13:00","level":"INFO","msg":"stream: starting","core version":"0.25.0"}
+{"time":"2026-03-19T06:31:36.198381747+13:00","level":"INFO","msg":"stream: created new stream","id":"rgnxiisk"}
+{"time":"2026-03-19T06:31:36.198495454+13:00","level":"INFO","msg":"handler: started","stream_id":"rgnxiisk"}
+{"time":"2026-03-19T06:31:36.19851255+13:00","level":"INFO","msg":"stream: started","id":"rgnxiisk"}
+{"time":"2026-03-19T06:31:36.198512742+13:00","level":"INFO","msg":"writer: started","stream_id":"rgnxiisk"}
+{"time":"2026-03-19T06:31:36.198520202+13:00","level":"INFO","msg":"sender: started","stream_id":"rgnxiisk"}
